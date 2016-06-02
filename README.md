@@ -111,7 +111,7 @@ $slackHandler = [
         'token'   => 'your-slack-token',
         'channel' => '#your-slack-channel',
         'level'   => Logger::DEBUG,
-        'iconEmoji'    => '::ghost::', // optional
+        'icon_emoji'    => '::ghost::', // optional
         'bubble'  => false, // optional
     ],
 ];
