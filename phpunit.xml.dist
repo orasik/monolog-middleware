@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit colors="true">
+    <testsuite name="MonologMiddlewareTest">
+        <directory suffix="Test.php">src/MonologMiddleware/Test/</directory>
+    </testsuite>
+    <php>
+        <ini name="date.timezone" value="UTC"/>
+    </php>
+</phpunit>
