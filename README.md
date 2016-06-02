@@ -28,7 +28,7 @@ return [
                             'type'   => 'stream',
                             'path'   => "data/main.log",
                             'level'  => Logger::DEBUG,
-                            'bubble' => false,
+                            'bubble' => true,
                         ],
                 ],
         ],
@@ -84,7 +84,7 @@ $streamHandler = [
         'type'   => 'stream',
         'path'   => 'data/main.log',
         'level'  => Logger::DEBUG,
-        'bubble' => false, // optional
+        'bubble' => true, // optional
     ],
 ];
 ```
@@ -97,7 +97,7 @@ $logglyHandler = [
         'type'   => 'loggly',
         'token'   => 'your-loggly-token',
         'level'  => Logger::DEBUG,
-        'bubble' => false, //optional
+        'bubble' => true, //optional
     ],
 ];
 ```
@@ -112,7 +112,7 @@ $slackHandler = [
         'channel' => '#your-slack-channel',
         'level'   => Logger::DEBUG,
         'icon_emoji'    => '::ghost::', // optional
-        'bubble'  => false, // optional
+        'bubble'  => true, // optional
     ],
 ];
 ```
