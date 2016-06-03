@@ -3,6 +3,7 @@
 
 namespace MonologMiddleware\Extension;
 
+use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Handler\LogglyHandler;
 use Monolog\Handler\SlackHandler;
 use Monolog\Handler\StreamHandler;
@@ -122,7 +123,33 @@ class MonologConfigurationExtension
                 return new LogglyHandler($handlerConfig['token'], $handlerConfig['level'], $bubble);
                 break;
 
+            case 'mail':
 
+            case 'mandril':
+
+            case 'mongo':
+            case 'native_mailer':
+
+            case 'new_relic':
+            case 'php_console':
+            case 'pushover':
+            case 'redis':
+            case 'rotating_file':
+            case 'swift_mailer':
+            case 'sys_log':
+            case 'zend_monitor':
+            case 'hipchat':
+            case 'iftt':
+            case 'firephp':
+            case 'dynamodb':
+            case 'couchdb':
+            case 'browser_console':
+                $browserConsoleHandlerValidator = new Validator\ValidateBrowserConsoleHandlerConfig($handlerConfig);
+                $browserConsoleHandlerValidator->validate();
+                $bubble = (isset($handlerConfig['bubble']) ? $handlerConfig['bubble'] : true);
+
+                return new BrowserConsoleHandler($handlerConfig['level'], $bubble);
+                break;
             default:
                 throw new MonologHandlerNotImplementedException(
                     sprintf("Handler %s does not exist or not implemented yet in the middleware", $handlerConfig['type'])
