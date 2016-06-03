@@ -3,7 +3,7 @@
 
 namespace MonologMiddleware\Validator;
 
-
+use MonologMiddleware\Exception\MonologConfigException;
 /**
  * Class ValidateNativeMailHandlerConfig
  * @package MonologMiddleware\Validator
