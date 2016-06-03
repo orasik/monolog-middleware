@@ -11,11 +11,11 @@ class ValidateNativeMailHandlerConfigTest extends \PHPUnit_Framework_TestCase
     public function testValidate()
     {
         $configArray = [
-            'type'    => 'native_mailer',
-            'level'   => 'ERROR',
-            'to'      => 'someemail@somedomain.com',
-            'subject' => 'Error in your application',
-            'from'    => 'monolog@yoursystem.com',
+            'type'       => 'native_mailer',
+            'level'      => 'ERROR',
+            'to_email'   => 'someemail@somedomain.com',
+            'subject'    => 'Error in your application',
+            'from_email' => 'monolog@yoursystem.com',
         ];
 
         $nativeMailValidator = new ValidateNativeMailHandlerConfig($configArray);
@@ -25,9 +25,9 @@ class ValidateNativeMailHandlerConfigTest extends \PHPUnit_Framework_TestCase
     public function testHasTo()
     {
         $configArray = [
-            'type'  => 'native_mailer',
-            'level' => 'ERROR',
-            'to'    => 'someemail@somedomain.com',
+            'type'     => 'native_mailer',
+            'level'    => 'ERROR',
+            'to_email' => 'someemail@somedomain.com',
         ];
 
         $nativeMailValidator = new ValidateNativeMailHandlerConfig($configArray);
@@ -37,9 +37,9 @@ class ValidateNativeMailHandlerConfigTest extends \PHPUnit_Framework_TestCase
     public function testHasFrom()
     {
         $configArray = [
-            'type'  => 'native_mailer',
-            'level' => 'ERROR',
-            'from'  => 'someemail@somedomain.com',
+            'type'       => 'native_mailer',
+            'level'      => 'ERROR',
+            'from_email' => 'someemail@somedomain.com',
         ];
 
         $nativeMailValidator = new ValidateNativeMailHandlerConfig($configArray);
@@ -61,10 +61,10 @@ class ValidateNativeMailHandlerConfigTest extends \PHPUnit_Framework_TestCase
     public function testHasToAndFromButNotSubject()
     {
         $configArray = [
-            'type'  => 'native_mailer',
-            'level' => 'ERROR',
-            'to'    => 'someemail@somedomain.com',
-            'from'  => 'monolog@yoursystem.com',
+            'type'       => 'native_mailer',
+            'level'      => 'ERROR',
+            'to_email'   => 'someemail@somedomain.com',
+            'from_email' => 'monolog@yoursystem.com',
         ];
 
         self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
