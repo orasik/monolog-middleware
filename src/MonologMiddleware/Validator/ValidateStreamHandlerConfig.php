@@ -12,11 +12,6 @@ use MonologMiddleware\Exception\MonologConfigException;
  */
 class ValidateStreamHandlerConfig extends AbstractValidateHandlerConfig
 {
-    /**
-     * @var string
-     */
-    protected $path;
-
 
     /**
      * @return bool

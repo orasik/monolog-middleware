@@ -12,16 +12,6 @@ use MonologMiddleware\Exception\MonologConfigException;
 class ValidateSlackHandlerConfig extends AbstractValidateHandlerConfig
 {
     /**
-     * @var string
-     */
-    protected $token;
-
-    /**
-     * @var string
-     */
-    protected $channel;
-
-    /**
      * @return bool
      * @throws MonologConfigException
      */
