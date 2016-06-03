@@ -117,7 +117,48 @@ $slackHandler = [
 ];
 ```
 
+##### Pushover
+```php
+$pushOverHandler = [
+'pushover'   =>
+    [
+        'type'    => 'pushover',
+        'token'   => 'your-slack-token',
+        'user' => '#your-slack-channel',
+        'level'   => Logger::DEBUG,
+        'title'    => 'Log title', // optional
 
+        'bubble'  => true, // optional
+    ],
+];
+```
+
+##### Native Email handler
+```php
+$nativeEmailHandler = [
+'native_email'   =>
+    [
+        'type'    => 'native_email',
+        'level'   => Logger::DEBUG,
+        'from_email'   => 'your-slack-token',
+        'to_email' => '#your-slack-channel',
+        'subject'    => 'Email subject', // optional
+        'max_column_width' => 70, //optional
+        'bubble'  => true, // optional
+    ],
+];
+```
+
+##### Browser Console handler
+```php
+$browserConsoleHandler = [
+'browser_console'   =>
+    [
+        'type'    => 'browser_console',
+        'level'   => Logger::DEBUG,
+    ],
+];
+```
 #### Extending Middleware
 
 To extend the middleware to log your own format, or specific data like cookies, server params .. etc. You can do that easily using the following steps:
@@ -209,4 +250,4 @@ That's it ... you're ready to use your own customised logger.
 #### TODO:
 - Add more handlers (List TBC)
 
-> Monolog Middleware was written and committed to github during my commute time. Written with passion on SouthWest Trains. **Please mind the gap!**
+> Monolog Middleware was written  during my commute time. Written with passion on SouthWest Trains. **Please mind the gap!**
