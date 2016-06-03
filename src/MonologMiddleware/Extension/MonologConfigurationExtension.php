@@ -7,6 +7,7 @@ use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Handler\LogglyHandler;
 use Monolog\Handler\NativeMailerHandler;
 use Monolog\Handler\PushoverHandler;
+use Monolog\Handler\RedisHandler;
 use Monolog\Handler\SlackHandler;
 use Monolog\Handler\StreamHandler;
 use MonologMiddleware\Exception\MonologConfigException;
@@ -344,6 +345,13 @@ class MonologConfigurationExtension
                 return new PushoverHandler($handlerConfig['token'], $handlerConfig['user'], $title, $handlerConfig['level'], $bubble);
                 break;
             case 'redis':
+                $redisHandlerValidator = new Validator\ValidateRedisHandlerConfig($handlerConfig);
+                $redisHandlerValidator->validate();
+                $bubble = (isset($handlerConfig['bubble']) ? $handlerConfig['bubble'] : true);
+                $capSize = (isset($handlerConfig['cap_size']) ? $handlerConfig['cap_size'] : false);
+
+                return new RedisHandler($handlerConfig['redis'], $handlerConfig['key'], $bubble, $capSize);
+                break;
             case 'rotating_file':
             case 'swift_mailer':
             case 'sys_log':
