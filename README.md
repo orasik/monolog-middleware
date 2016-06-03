@@ -95,7 +95,7 @@ $logglyHandler = [
 'loggly'   =>
     [
         'type'   => 'loggly',
-        'token'   => 'your-loggly-token',
+        'token'  => 'your-loggly-token',
         'level'  => Logger::DEBUG,
         'bubble' => true, //optional
     ],
@@ -107,12 +107,12 @@ $logglyHandler = [
 $slackHandler = [
 'slack'   =>
     [
-        'type'    => 'slack',
-        'token'   => 'your-slack-token',
-        'channel' => '#your-slack-channel',
-        'level'   => Logger::DEBUG,
-        'icon_emoji'    => '::ghost::', // optional
-        'bubble'  => true, // optional
+        'type'       => 'slack',
+        'token'      => 'your-slack-token',
+        'channel'    => '#your-slack-channel',
+        'level'      => Logger::DEBUG,
+        'icon_emoji' => '::ghost::', // optional
+        'bubble'     => true, // optional
     ],
 ];
 ```
@@ -123,11 +123,10 @@ $pushOverHandler = [
 'pushover'   =>
     [
         'type'    => 'pushover',
-        'token'   => 'your-slack-token',
-        'user' => '#your-slack-channel',
-        'level'   => Logger::DEBUG,
-        'title'    => 'Log title', // optional
-
+        'token'   => 'your-pushover-token',
+        'user'    => 'pushover user',
+        'level'   => Logger::ERROR,
+        'title'   => 'Log title', // optional
         'bubble'  => true, // optional
     ],
 ];
@@ -138,13 +137,13 @@ $pushOverHandler = [
 $nativeEmailHandler = [
 'native_email'   =>
     [
-        'type'    => 'native_email',
-        'level'   => Logger::DEBUG,
-        'from_email'   => 'your-slack-token',
-        'to_email' => '#your-slack-channel',
-        'subject'    => 'Email subject', // optional
+        'type'             => 'native_email',
+        'level'            => Logger::CRITICAL,
+        'from_email'       => 'logs@yourserver.com',
+        'to_email'         => 'email@email.com',
+        'subject'          => 'Email subject', // optional
         'max_column_width' => 70, //optional
-        'bubble'  => true, // optional
+        'bubble'           => true, // optional
     ],
 ];
 ```
