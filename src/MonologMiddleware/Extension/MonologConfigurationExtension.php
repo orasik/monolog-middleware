@@ -5,6 +5,7 @@ namespace MonologMiddleware\Extension;
 
 use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Handler\LogglyHandler;
+use Monolog\Handler\NativeMailerHandler;
 use Monolog\Handler\SlackHandler;
 use Monolog\Handler\StreamHandler;
 use MonologMiddleware\Exception\MonologConfigException;
@@ -123,12 +124,17 @@ class MonologConfigurationExtension
                 return new LogglyHandler($handlerConfig['token'], $handlerConfig['level'], $bubble);
                 break;
 
-            case 'mail':
-
             case 'mandril':
 
             case 'mongo':
             case 'native_mailer':
+                $nativeMailHandlerValidator = new Validator\ValidateNativeMailHandlerConfig($handlerConfig);
+                $nativeMailHandlerValidator->validate();
+                $bubble = (isset($handlerConfig['bubble']) ? $handlerConfig['bubble'] : true);
+                $maxColumnWidth = (isset($handlerConfig['max_column_width']) ? $handlerConfig['max_column_width'] : 70);
+
+                return new NativeMailerHandler($handlerConfig['to'], $handlerConfig['subject'], $handlerConfig['from'], $handlerConfig['level'], $bubble, $maxColumnWidth);
+                break;
 
             case 'new_relic':
             case 'php_console':
