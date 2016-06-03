@@ -172,6 +172,28 @@ $redisHandler = [
 ];
 ```
 
+##### FirePHP handler
+```php
+$redisHandler = [
+'firephp'   =>
+    [
+        'type'          => 'firephp',
+        'level'         => Logger::DEBUG,
+    ],
+];
+```
+
+##### NewRelic handler
+```php
+$redisHandler = [
+'new_relic'   =>
+    [
+        'type'          => 'new_relic',
+        'level'         => Logger::DEBUG,
+        'app_name'      => 'Monolog', // optional
+    ],
+];
+```
 
 #### Extending Middleware
 
