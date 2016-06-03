@@ -350,7 +350,7 @@ class MonologConfigurationExtension
                 $bubble = (isset($handlerConfig['bubble']) ? $handlerConfig['bubble'] : true);
                 $capSize = (isset($handlerConfig['cap_size']) ? $handlerConfig['cap_size'] : false);
 
-                return new RedisHandler($handlerConfig['redis'], $handlerConfig['key'], $bubble, $capSize);
+                return new RedisHandler($handlerConfig['redis_client'], $handlerConfig['key'], $bubble, $capSize);
                 break;
             case 'rotating_file':
             case 'swift_mailer':

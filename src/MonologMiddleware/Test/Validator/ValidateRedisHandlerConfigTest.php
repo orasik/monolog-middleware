@@ -11,10 +11,10 @@ class ValidateRedisHandlerConfigTest extends \PHPUnit_Framework_TestCase
     public function testValidate()
     {
         $configArray = [
-            'type'  => 'redis',
-            'level' => 'INFO',
-            'redis' => new \Redis(),
-            'key'   => 'monolog'
+            'type'         => 'redis',
+            'level'        => 'INFO',
+            'redis_client' => new \Redis(),
+            'key'          => 'monolog'
         ];
 
         $redisValidator = new ValidateRedisHandlerConfig($configArray);
@@ -24,9 +24,9 @@ class ValidateRedisHandlerConfigTest extends \PHPUnit_Framework_TestCase
     public function testHasRedisClient()
     {
         $configArray = [
-            'type'  => 'redis',
-            'level' => 'INFO',
-            'redis' => new \Redis(),
+            'type'         => 'redis',
+            'level'        => 'INFO',
+            'redis_client' => new \Redis(),
         ];
 
         $redisValidator = new ValidateRedisHandlerConfig($configArray);
@@ -49,9 +49,9 @@ class ValidateRedisHandlerConfigTest extends \PHPUnit_Framework_TestCase
     public function testHasRedisValueButNotRedisClient()
     {
         $configArray = [
-            'type'  => 'redis',
-            'level' => 'INFO',
-            'redis' => 'REDIS',
+            'type'         => 'redis',
+            'level'        => 'INFO',
+            'redis_client' => 'REDIS',
         ];
         self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
         $redisValidator = new ValidateRedisHandlerConfig($configArray);
@@ -76,7 +76,7 @@ class ValidateRedisHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'type'  => 'redis',
             'level' => 'INFO',
         ];
-        
+
         self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
         $redisValidator = new ValidateRedisHandlerConfig($configArray);
         $this->assertTrue($redisValidator->hasKey());

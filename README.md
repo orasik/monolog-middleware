@@ -95,7 +95,7 @@ $logglyHandler = [
 'loggly'   =>
     [
         'type'   => 'loggly',
-        'token'  => 'your-loggly-token',
+        'token'   => 'your-loggly-token',
         'level'  => Logger::DEBUG,
         'bubble' => true, //optional
     ],
@@ -158,6 +158,21 @@ $browserConsoleHandler = [
     ],
 ];
 ```
+
+##### Redis handler
+```php
+$redisHandler = [
+'redis'   =>
+    [
+        'type'          => 'redis',
+        'level'         => Logger::DEBUG,
+        'redis_client'  => new \Redis(),
+        'key'           => 'monolog',
+    ],
+];
+```
+
+
 #### Extending Middleware
 
 To extend the middleware to log your own format, or specific data like cookies, server params .. etc. You can do that easily using the following steps:

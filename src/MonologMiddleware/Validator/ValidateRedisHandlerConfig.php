@@ -28,7 +28,7 @@ class ValidateRedisHandlerConfig extends AbstractValidateHandlerConfig
      */
     public function hasRedisClient()
     {
-        if (isset($this->handlerConfigArray['redis']) && $this->handlerConfigArray['redis'] instanceof \Redis) {
+        if (isset($this->handlerConfigArray['redis_client']) && $this->handlerConfigArray['redis_client'] instanceof \Redis) {
             return true;
         } else {
             throw new MonologConfigException("Missing Redis client in Redis handler configuration");
