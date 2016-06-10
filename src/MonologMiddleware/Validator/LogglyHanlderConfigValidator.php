@@ -5,10 +5,10 @@ namespace MonologMiddleware\Validator;
 use MonologMiddleware\Exception\MonologConfigException;
 
 /**
- * Class ValidateLogglyHanlderConfig
+ * Class LogglyHanlderConfigValidator
  * @package MonologMiddleware\Validator
  */
-class ValidateLogglyHanlderConfig extends AbstractValidateHandlerConfig
+class LogglyHanlderConfigValidator extends AbstractHandlerConfigValidator
 {
 
     /**

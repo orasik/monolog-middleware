@@ -3,9 +3,9 @@
 
 namespace MonologMiddleware\Test;
 
-use MonologMiddleware\Validator\ValidateStreamHandlerConfig;
+use MonologMiddleware\Validator\StreamHandlerConfigValidator;
 
-class ValidateStreamHandlerConfigTest extends \PHPUnit_Framework_TestCase
+class StreamHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testValidate()
@@ -16,7 +16,7 @@ class ValidateStreamHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'path'  => '/my/path',
         ];
 
-        $streamValidator = new ValidateStreamHandlerConfig($configArray);
+        $streamValidator = new StreamHandlerConfigValidator($configArray);
         $this->assertTrue($streamValidator->validate());
     }
 
@@ -28,7 +28,7 @@ class ValidateStreamHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'path'  => '/my/path',
         ];
 
-        $streamValidator = new ValidateStreamHandlerConfig($configArray);
+        $streamValidator = new StreamHandlerConfigValidator($configArray);
         $this->assertTrue($streamValidator->hasPath());
     }
 
@@ -39,7 +39,7 @@ class ValidateStreamHandlerConfigTest extends \PHPUnit_Framework_TestCase
         ];
 
         self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
-        $streamValidator = new ValidateStreamHandlerConfig($configArray);
+        $streamValidator = new StreamHandlerConfigValidator($configArray);
         $streamValidator->hasPath();
 
     }

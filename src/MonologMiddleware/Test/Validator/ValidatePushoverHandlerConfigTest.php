@@ -3,9 +3,9 @@
 
 namespace MonologMiddleware\Test;
 
-use MonologMiddleware\Validator\ValidatePushoverHandlerConfig;
+use MonologMiddleware\Validator\PushoverHandlerConfigValidator;
 
-class ValidatePushoverHandlerConfigTest extends \PHPUnit_Framework_TestCase
+class PushoverHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testValidate()
@@ -17,7 +17,7 @@ class ValidatePushoverHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'user'  => 'username',
         ];
 
-        $pushoverValidator = new ValidatePushoverHandlerConfig($configArray);
+        $pushoverValidator = new PushoverHandlerConfigValidator($configArray);
         $this->assertTrue($pushoverValidator->validate());
     }
 
@@ -28,7 +28,7 @@ class ValidatePushoverHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'token' => 'token-token-token',
         ];
 
-        $pushoverValidator = new ValidatePushoverHandlerConfig($configArray);
+        $pushoverValidator = new PushoverHandlerConfigValidator($configArray);
         $this->assertTrue($pushoverValidator->hasToken());
     }
 
@@ -40,7 +40,7 @@ class ValidatePushoverHandlerConfigTest extends \PHPUnit_Framework_TestCase
         ];
 
         self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
-        $pushoverValidator = new ValidatePushoverHandlerConfig($configArray);
+        $pushoverValidator = new PushoverHandlerConfigValidator($configArray);
         $pushoverValidator->hasToken();
 
     }
@@ -52,7 +52,7 @@ class ValidatePushoverHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'user' => '123-123-123',
         ];
 
-        $pushoverValidator = new ValidatePushoverHandlerConfig($configArray);
+        $pushoverValidator = new PushoverHandlerConfigValidator($configArray);
         $this->assertTrue($pushoverValidator->hasUser());
     }
 
@@ -64,7 +64,7 @@ class ValidatePushoverHandlerConfigTest extends \PHPUnit_Framework_TestCase
         ];
 
         self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
-        $pushoverValidator = new ValidatePushoverHandlerConfig($configArray);
+        $pushoverValidator = new PushoverHandlerConfigValidator($configArray);
         $pushoverValidator->hasUser();
     }
 }

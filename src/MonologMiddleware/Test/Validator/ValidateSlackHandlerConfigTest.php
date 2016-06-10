@@ -3,9 +3,9 @@
 
 namespace MonologMiddleware\Test;
 
-use MonologMiddleware\Validator\ValidateSlackHandlerConfig;
+use MonologMiddleware\Validator\SlackHandlerConfigValidator;
 
-class ValidateSlackHandlerConfigTest extends \PHPUnit_Framework_TestCase
+class SlackHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testValidate()
@@ -17,7 +17,7 @@ class ValidateSlackHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'channel' => '#hello_world',
         ];
 
-        $slackValidator = new ValidateSlackHandlerConfig($configArray);
+        $slackValidator = new SlackHandlerConfigValidator($configArray);
         $this->assertTrue($slackValidator->validate());
     }
 
@@ -28,7 +28,7 @@ class ValidateSlackHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'channel' => '#hello_world',
         ];
 
-        $slackValidator = new ValidateSlackHandlerConfig($configArray);
+        $slackValidator = new SlackHandlerConfigValidator($configArray);
         $this->assertTrue($slackValidator->hasChannel());
     }
 
@@ -41,7 +41,7 @@ class ValidateSlackHandlerConfigTest extends \PHPUnit_Framework_TestCase
         ];
 
         self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
-        $slackValidator = new ValidateSlackHandlerConfig($configArray);
+        $slackValidator = new SlackHandlerConfigValidator($configArray);
         $slackValidator->hasChannel();
 
     }
@@ -53,7 +53,7 @@ class ValidateSlackHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'token' => '123-123-123',
         ];
 
-        $slackValidator = new ValidateSlackHandlerConfig($configArray);
+        $slackValidator = new SlackHandlerConfigValidator($configArray);
         $this->assertTrue($slackValidator->hasToken());
     }
 
@@ -65,7 +65,7 @@ class ValidateSlackHandlerConfigTest extends \PHPUnit_Framework_TestCase
         ];
 
         self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
-        $slackValidator = new ValidateSlackHandlerConfig($configArray);
+        $slackValidator = new SlackHandlerConfigValidator($configArray);
         $slackValidator->hasToken();
     }
 }

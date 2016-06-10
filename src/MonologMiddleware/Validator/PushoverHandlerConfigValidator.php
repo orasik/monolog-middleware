@@ -3,25 +3,27 @@
 
 namespace MonologMiddleware\Validator;
 
+
 use MonologMiddleware\Exception\MonologConfigException;
 
+
 /**
- * Class ValidateSlackHandlerConfig
+ * Class PushoverHandlerConfigValidator
  * @package MonologMiddleware\Validator
  */
-class ValidateSlackHandlerConfig extends AbstractValidateHandlerConfig
+class PushoverHandlerConfigValidator extends AbstractHandlerConfigValidator
 {
+
     /**
      * @return bool
      * @throws MonologConfigException
      */
     public function validate()
     {
-        if (parent::hasLevel() && $this->hasToken() && $this->hasChannel()) {
+        if (parent::hasLevel() && $this->hasToken() && $this->hasUser()) {
             return true;
         }
     }
-
 
     /**
      * @return bool
@@ -32,7 +34,7 @@ class ValidateSlackHandlerConfig extends AbstractValidateHandlerConfig
         if (isset($this->handlerConfigArray['token'])) {
             return true;
         } else {
-            throw new MonologConfigException("Missing token in Slack handler configuration");
+            throw new MonologConfigException("Missing token in Pushover handler configuration");
         }
     }
 
@@ -40,13 +42,12 @@ class ValidateSlackHandlerConfig extends AbstractValidateHandlerConfig
      * @return bool
      * @throws MonologConfigException
      */
-    public function hasChannel()
+    public function hasUser()
     {
-        if (isset($this->handlerConfigArray['channel'])) {
+        if (isset($this->handlerConfigArray['user'])) {
             return true;
         } else {
-            throw new MonologConfigException("Missing channel in Slack handler configuration");
+            throw new MonologConfigException("Missing user in Pushover handler configuration");
         }
     }
-
 }

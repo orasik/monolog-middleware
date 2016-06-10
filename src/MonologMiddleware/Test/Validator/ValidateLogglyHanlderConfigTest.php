@@ -3,9 +3,9 @@
 
 namespace MonologMiddleware\Test;
 
-use MonologMiddleware\Validator\ValidateLogglyHanlderConfig;
+use MonologMiddleware\Validator\LogglyHanlderConfigValidator;
 
-class ValidateLogglyHanlderConfigTest extends \PHPUnit_Framework_TestCase
+class LogglyHanlderConfigValidatorTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testValidate()
@@ -16,7 +16,7 @@ class ValidateLogglyHanlderConfigTest extends \PHPUnit_Framework_TestCase
             'token' => '123-123-123-123',
         ];
 
-        $logglyValidator = new ValidateLogglyHanlderConfig($configArray);
+        $logglyValidator = new LogglyHanlderConfigValidator($configArray);
         $this->assertTrue($logglyValidator->validate());
     }
 
@@ -27,7 +27,7 @@ class ValidateLogglyHanlderConfigTest extends \PHPUnit_Framework_TestCase
             'token' => '123-123-123-123',
         ];
 
-        $logglyValidator = new ValidateLogglyHanlderConfig($configArray);
+        $logglyValidator = new LogglyHanlderConfigValidator($configArray);
         $this->assertTrue($logglyValidator->hasToken());
     }
 
@@ -38,7 +38,7 @@ class ValidateLogglyHanlderConfigTest extends \PHPUnit_Framework_TestCase
         ];
 
         self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
-        $logglyValidator = new ValidateLogglyHanlderConfig($configArray);
+        $logglyValidator = new LogglyHanlderConfigValidator($configArray);
         $this->assertTrue($logglyValidator->hasToken());
     }
 }

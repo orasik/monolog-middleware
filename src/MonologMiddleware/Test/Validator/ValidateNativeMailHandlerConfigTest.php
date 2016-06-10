@@ -3,9 +3,9 @@
 
 namespace MonologMiddleware\Test;
 
-use MonologMiddleware\Validator\ValidateNativeMailHandlerConfig;
+use MonologMiddleware\Validator\NativeMailHandlerConfigValidator;
 
-class ValidateNativeMailHandlerConfigTest extends \PHPUnit_Framework_TestCase
+class NativeMailHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testValidate()
@@ -18,7 +18,7 @@ class ValidateNativeMailHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'from_email' => 'monolog@yoursystem.com',
         ];
 
-        $nativeMailValidator = new ValidateNativeMailHandlerConfig($configArray);
+        $nativeMailValidator = new NativeMailHandlerConfigValidator($configArray);
         $this->assertTrue($nativeMailValidator->validate());
     }
 
@@ -30,7 +30,7 @@ class ValidateNativeMailHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'to_email' => 'someemail@somedomain.com',
         ];
 
-        $nativeMailValidator = new ValidateNativeMailHandlerConfig($configArray);
+        $nativeMailValidator = new NativeMailHandlerConfigValidator($configArray);
         $this->assertTrue($nativeMailValidator->hasTo());
     }
 
@@ -42,7 +42,7 @@ class ValidateNativeMailHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'from_email' => 'someemail@somedomain.com',
         ];
 
-        $nativeMailValidator = new ValidateNativeMailHandlerConfig($configArray);
+        $nativeMailValidator = new NativeMailHandlerConfigValidator($configArray);
         $this->assertTrue($nativeMailValidator->hasFrom());
     }
 
@@ -54,7 +54,7 @@ class ValidateNativeMailHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'subject' => 'someemail@somedomain.com',
         ];
 
-        $nativeMailValidator = new ValidateNativeMailHandlerConfig($configArray);
+        $nativeMailValidator = new NativeMailHandlerConfigValidator($configArray);
         $this->assertTrue($nativeMailValidator->hasSubject());
     }
 
@@ -68,7 +68,7 @@ class ValidateNativeMailHandlerConfigTest extends \PHPUnit_Framework_TestCase
         ];
 
         self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
-        $nativeMailValidator = new ValidateNativeMailHandlerConfig($configArray);
+        $nativeMailValidator = new NativeMailHandlerConfigValidator($configArray);
         $this->assertTrue($nativeMailValidator->hasTo());
         $this->assertTrue($nativeMailValidator->hasFrom());
         $this->assertTrue($nativeMailValidator->hasSubject());

@@ -7,10 +7,10 @@ namespace MonologMiddleware\Validator;
 use MonologMiddleware\Exception\MonologConfigException;
 
 /**
- * Class ValidateStreamHandlerConfig
+ * Class StreamHandlerConfigValidator
  * @package MonologMiddleware\Validator
  */
-class ValidateStreamHandlerConfig extends AbstractValidateHandlerConfig
+class StreamHandlerConfigValidator extends AbstractHandlerConfigValidator
 {
 
     /**

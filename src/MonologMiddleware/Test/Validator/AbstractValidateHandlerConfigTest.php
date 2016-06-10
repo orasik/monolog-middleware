@@ -2,9 +2,9 @@
 
 namespace MonologMiddleware\Test;
 
-use MonologMiddleware\Validator\AbstractValidateHandlerConfig;
+use MonologMiddleware\Validator\AbstractHandlerConfigValidator;
 
-class AbstractValidateHandlerConfigTest extends \PHPUnit_Framework_TestCase
+class AbstractHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testValidate()
@@ -14,7 +14,7 @@ class AbstractValidateHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'level' => 'INFO',
         ];
 
-        $abstractValidator = new AbstractValidateHandlerConfig($configArray);
+        $abstractValidator = new AbstractHandlerConfigValidator($configArray);
         $this->assertTrue($abstractValidator->validate());
     }
 
@@ -25,7 +25,7 @@ class AbstractValidateHandlerConfigTest extends \PHPUnit_Framework_TestCase
             'level' => 'INFO',
         ];
 
-        $abstractValidator = new AbstractValidateHandlerConfig($configArray);
+        $abstractValidator = new AbstractHandlerConfigValidator($configArray);
         $this->assertTrue($abstractValidator->hasLevel());
     }
 
@@ -36,7 +36,7 @@ class AbstractValidateHandlerConfigTest extends \PHPUnit_Framework_TestCase
         ];
 
         self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
-        $abstractValidator = new AbstractValidateHandlerConfig($configArray);
+        $abstractValidator = new AbstractHandlerConfigValidator($configArray);
         $abstractValidator->hasLevel();
     }
 }

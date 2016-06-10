@@ -7,10 +7,10 @@ namespace MonologMiddleware\Validator;
 use MonologMiddleware\Exception\MonologConfigException;
 
 /**
- * Class AbstractValidateHandlerConfig
+ * Class AbstractHandlerConfigValidator
  * @package MonologMiddleware\Validator
  */
-class AbstractValidateHandlerConfig
+class AbstractHandlerConfigValidator
 {
     /**
      * @var array
@@ -19,7 +19,7 @@ class AbstractValidateHandlerConfig
 
 
     /**
-     * AbstractValidateHandlerConfig constructor.
+     * AbstractHandlerConfigValidator constructor.
      * @param $handlerConfigArray
      */
     public function __construct($handlerConfigArray)
@@ -52,5 +52,4 @@ class AbstractValidateHandlerConfig
             throw new MonologConfigException("Monolog level is missing from config");
         }
     }
-
 }

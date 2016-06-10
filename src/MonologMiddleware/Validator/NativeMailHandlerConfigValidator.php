@@ -5,10 +5,10 @@ namespace MonologMiddleware\Validator;
 
 use MonologMiddleware\Exception\MonologConfigException;
 /**
- * Class ValidateNativeMailHandlerConfig
+ * Class NativeMailHandlerConfigValidator
  * @package MonologMiddleware\Validator
  */
-class ValidateNativeMailHandlerConfig extends AbstractValidateHandlerConfig
+class NativeMailHandlerConfigValidator extends AbstractHandlerConfigValidator
 {
     /**
      * @return bool

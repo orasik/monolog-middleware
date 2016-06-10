@@ -5,10 +5,10 @@ namespace MonologMiddleware\Validator;
 use MonologMiddleware\Exception\MonologConfigException;
 
 /**
- * Class ValidateRedisHandlerConfig
+ * Class RedisHandlerConfigValidator
  * @package MonologMiddleware\Validator
  */
-class ValidateRedisHandlerConfig extends AbstractValidateHandlerConfig
+class RedisHandlerConfigValidator extends AbstractHandlerConfigValidator
 {
     /**
      * @return bool

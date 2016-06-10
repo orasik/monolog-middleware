@@ -4,12 +4,14 @@
 namespace MonologMiddleware\Extension;
 
 use Monolog\Handler\BrowserConsoleHandler;
+use Monolog\Handler\ChromePHPHandler;
 use Monolog\Handler\FirePHPHandler;
 use Monolog\Handler\LogglyHandler;
 use Monolog\Handler\NativeMailerHandler;
 use Monolog\Handler\NewRelicHandler;
 use Monolog\Handler\PushoverHandler;
 use Monolog\Handler\RedisHandler;
+use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\SlackHandler;
 use Monolog\Handler\StreamHandler;
 use MonologMiddleware\Exception\MonologConfigException;
@@ -93,16 +95,8 @@ class MonologConfigurationExtension
          *   - [level]: level name or int value, defaults to DEBUG
          *   - [bubble]: bool, defaults to true
          *
-         * - firephp:
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
          * - gelf:
          *   - publisher: {id: ...} or {hostname: ..., port: ..., chunk_size: ...}
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
-         * - chromephp:
          *   - [level]: level name or int value, defaults to DEBUG
          *   - [bubble]: bool, defaults to true
          *
@@ -218,11 +212,6 @@ class MonologConfigurationExtension
          *   - [bubble]: bool, defaults to true
          *   - [auto_stack_logs]: bool, defaults to false
          *
-         * - newrelic:
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *   - [app_name]: new relic app name, default null
-         *
          * - hipchat:
          *   - token: hipchat api token
          *   - room: room id or name
@@ -287,9 +276,9 @@ class MonologConfigurationExtension
         switch ($handlerConfig['type']) {
             case 'stream':
                 /**
-                 * @var Validator\ValidateStreamHandlerConfig $streamHandlerValidator
+                 * @var Validator\StreamHandlerConfigValidator $streamHandlerValidator
                  */
-                $streamHandlerValidator = new Validator\ValidateStreamHandlerConfig($handlerConfig);
+                $streamHandlerValidator = new Validator\StreamHandlerConfigValidator($handlerConfig);
                 $streamHandlerValidator->validate();
                 $filePermission = (isset($handlerConfig['permission']) ? $handlerConfig['permission'] : null);
                 $useLocking = (isset($handlerConfig['use_locking']) ? $handlerConfig['use_locking'] : false);
@@ -299,9 +288,9 @@ class MonologConfigurationExtension
 
             case 'slack':
                 /**
-                 * @var Validator\ValidateSlackHandlerConfig $slackHandlerValidator
+                 * @var Validator\SlackHandlerConfigValidator $slackHandlerValidator
                  */
-                $slackHandlerValidator = new Validator\ValidateSlackHandlerConfig($handlerConfig);
+                $slackHandlerValidator = new Validator\SlackHandlerConfigValidator($handlerConfig);
                 $slackHandlerValidator->validate();
 
                 $username = (isset($handlerConfig['username']) ? $handlerConfig['username'] : 'Monolog');
@@ -315,9 +304,9 @@ class MonologConfigurationExtension
 
             case 'loggly':
                 /**
-                 * @var Validator\ValidateLogglyHanlderConfig $logglyHandlerValidator
+                 * @var Validator\LogglyHanlderConfigValidator $logglyHandlerValidator
                  */
-                $logglyHandlerValidator = new Validator\ValidateLogglyHanlderConfig($handlerConfig);
+                $logglyHandlerValidator = new Validator\LogglyHanlderConfigValidator($handlerConfig);
                 $logglyHandlerValidator->validate();
 
                 return new LogglyHandler($handlerConfig['token'], $handlerConfig['level'], $bubble);
@@ -326,7 +315,7 @@ class MonologConfigurationExtension
             case 'mongo':
 
             case 'native_mailer':
-                $nativeMailHandlerValidator = new Validator\ValidateNativeMailHandlerConfig($handlerConfig);
+                $nativeMailHandlerValidator = new Validator\NativeMailHandlerConfigValidator($handlerConfig);
                 $nativeMailHandlerValidator->validate();
                 $maxColumnWidth = (isset($handlerConfig['max_column_width']) ? $handlerConfig['max_column_width'] : 70);
 
@@ -334,7 +323,7 @@ class MonologConfigurationExtension
                 break;
 
             case 'new_relic':
-                $newRelicHandlerValidator = new Validator\AbstractValidateHandlerConfig($handlerConfig);
+                $newRelicHandlerValidator = new Validator\AbstractHandlerConfigValidator($handlerConfig);
                 $newRelicHandlerValidator->validate();
 
                 $appName = (isset($handlerConfig['app_name']) ? $handlerConfig['app_name'] : null);
@@ -342,36 +331,58 @@ class MonologConfigurationExtension
                 return new NewRelicHandler($handlerConfig['level'], $bubble, $appName);
                 break;
             case 'php_console':
+                return;
             case 'pushover':
-                $pushoverHandlerValidator = new Validator\ValidatePushoverHandlerConfig($handlerConfig);
+                $pushoverHandlerValidator = new Validator\PushoverHandlerConfigValidator($handlerConfig);
                 $pushoverHandlerValidator->validate();
                 $title = (isset($handlerConfig['title']) ? $handlerConfig['title'] : null);
 
                 return new PushoverHandler($handlerConfig['token'], $handlerConfig['user'], $title, $handlerConfig['level'], $bubble);
                 break;
             case 'redis':
-                $redisHandlerValidator = new Validator\ValidateRedisHandlerConfig($handlerConfig);
+                $redisHandlerValidator = new Validator\RedisHandlerConfigValidator($handlerConfig);
                 $redisHandlerValidator->validate();
                 $capSize = (isset($handlerConfig['cap_size']) ? $handlerConfig['cap_size'] : false);
 
                 return new RedisHandler($handlerConfig['redis_client'], $handlerConfig['key'], $bubble, $capSize);
                 break;
             case 'rotating_file':
-            case 'swift_mailer':
+
+                $rotatingFileHanlderValidator = new Validator\StreamHandlerConfigValidator($handlerConfig);
+                $rotatingFileHanlderValidator->validate();
+                $maxFiles = (isset($handlerConfig['max_files']) ? $handlerConfig['max_files'] : 0);
+                $filePermission = (isset($handlerConfig['file_permission']) ? $handlerConfig['file_permission'] : null);
+                $filenameFormat = (isset($handlerConfig['filename_format']) ? $handlerConfig['filename_format'] : '{filename}-{date}');
+                $dateFormat = (isset($handlerConfig['date_format']) ? $handlerConfig['date_format'] : 'Y-m-d');
+
+                $rotatingFileHandler = new RotatingFileHandler($handlerConfig['filename'], $maxFiles, $handlerConfig['level'], $bubble, $filePermission, false);
+                $rotatingFileHandler->setFilenameFormat($filenameFormat, $dateFormat);
+
+                return $rotatingFileHandler;
+                break;
+
+            case
+            'swift_mailer':
             case 'sys_log':
             case 'zend_monitor':
             case 'hipchat':
             case 'iftt':
             case 'firephp':
-                $firePhpHandlerValidator = new Validator\AbstractValidateHandlerConfig($handlerConfig);
+                $firePhpHandlerValidator = new Validator\AbstractHandlerConfigValidator($handlerConfig);
                 $firePhpHandlerValidator->validate();
 
                 return new FirePHPHandler($handlerConfig['level'], $bubble);
                 break;
+            case 'chromephp':
+                $chromePhpHandlerValidator = new Validator\AbstractHandlerConfigValidator($handlerConfig);
+                $chromePhpHandlerValidator->validate();
+
+                return new ChromePHPHandler($handlerConfig['level'], $bubble);
+                break;
             case 'dynamodb':
             case 'couchdb':
             case 'browser_console':
-                $browserConsoleHandlerValidator = new Validator\ValidateBrowserConsoleHandlerConfig($handlerConfig);
+                $browserConsoleHandlerValidator = new Validator\BrowserConsoleHandlerConfigValidator($handlerConfig);
                 $browserConsoleHandlerValidator->validate();
 
                 return new BrowserConsoleHandler($handlerConfig['level'], $bubble);

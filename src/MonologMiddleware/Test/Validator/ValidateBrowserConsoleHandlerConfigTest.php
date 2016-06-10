@@ -3,9 +3,9 @@
 
 namespace MonologMiddleware\Test;
 
-use MonologMiddleware\Validator\ValidateBrowserConsoleHandlerConfig;
+use MonologMiddleware\Validator\BrowserConsoleHandlerConfigValidator;
 
-class ValidateBrowserConsoleHandlerConfigTest extends \PHPUnit_Framework_TestCase
+class BrowserConsoleHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testValidate()
@@ -15,7 +15,7 @@ class ValidateBrowserConsoleHandlerConfigTest extends \PHPUnit_Framework_TestCas
             'level' => 'INFO',
         ];
 
-        $browserConsoleValidator = new ValidateBrowserConsoleHandlerConfig($configArray);
+        $browserConsoleValidator = new BrowserConsoleHandlerConfigValidator($configArray);
         $this->assertTrue($browserConsoleValidator->validate());
     }
 }
