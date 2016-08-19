@@ -31,10 +31,5 @@
     "psr-4": {
       "MonologMiddleware\\": "src/MonologMiddleware/"
     }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "0.4-dev"
-    }
   }
 }
