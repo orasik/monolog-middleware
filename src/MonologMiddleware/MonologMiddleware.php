@@ -98,9 +98,9 @@ class MonologMiddleware implements MiddlewareInterface
      */
     public function logResponse($level, $response)
     {
-        $message = sprintf("Respones body: %s ", $response->getBody());
+        $message = sprintf("Response body: %s ", $response->getBody());
         $context = [
-            'respone_code' => $response->getStatusCode()
+            'response_code' => $response->getStatusCode()
         ];
 
         $this->logger->addRecord($level, $message, $context);
