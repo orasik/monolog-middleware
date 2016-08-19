@@ -2,7 +2,7 @@
   "name": "oras/monolog-middleware",
   "description": "PSR-7 Monolog Middleware",
   "minimum-stability": "stable",
-  "version": "0.3",
+  "version": "0.4",
   "license": "MIT",
   "authors": [
     {
@@ -34,7 +34,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.1-dev"
+      "dev-master": "0.4-dev"
     }
   }
 }
