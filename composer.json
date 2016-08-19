@@ -31,5 +31,8 @@
     "psr-4": {
       "MonologMiddleware\\": "src/MonologMiddleware/"
     }
+  },
+  "extras": {
+   "dev-master": "0.4-dev",
   }
 }
