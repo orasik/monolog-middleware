@@ -281,7 +281,4 @@ class MonologMiddleware implements MiddlewareInterface
 That's it ... you're ready to use your own customised logger.
 
 
-#### TODO:
-- Add more handlers (List TBC)
-
 > Monolog Middleware was written  during my commute time. Written with passion on SouthWest Trains. **Please mind the gap!**
