@@ -1,8 +1,6 @@
 # Monolog Logger Middleware
 Monolog Middleware to be used with PSR-7 middleware frameworks like Zend Expressive and Slim.
 
-This is still in development, more handlers will be added later.
-
 ### Installation
 
 ##### 1) Install middleware using composer
