@@ -38,7 +38,7 @@ return [
 ```php
 'factories' => [
 
-            \MonologMiddleware\MonologMiddleware::class => \MonologMiddleware\Extension\MonologMiddlewareFactory::class,
+            \MonologMiddleware\MonologMiddleware::class => \MonologMiddleware\Factory\MonologMiddlewareFactory::class,
         ],
 ```
 
@@ -52,7 +52,7 @@ return [
              'path' => '/',
              'middleware' => [
                 App\Action\HomePageAction::class,
-                \MonologMiddleware\MonologMiddleware:class,
+                \MonologMiddleware\MonologMiddleware::class,
                 ],
              'allowed_methods' => ['GET'],
          ],
