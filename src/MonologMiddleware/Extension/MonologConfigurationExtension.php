@@ -87,190 +87,6 @@ class MonologConfigurationExtension
             throw new MonologConfigException(sprintf("Hander %s does not have type", $name));
         }
 
-        /*
-         * From Symfony monolog bundle, I use it as todo list
-         *
-         * - console:
-         *   - [verbosity_levels]: level => verbosity configuration
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
-         * - gelf:
-         *   - publisher: {id: ...} or {hostname: ..., port: ..., chunk_size: ...}
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
-         * - rotating_file:
-         *   - path: string
-         *   - [max_files]: files to keep, defaults to zero (infinite)
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *   - [file_permission]: string|null, defaults to null
-         *   - [filename_format]: string, defaults to '{filename}-{date}'
-         *   - [date_format]: string, defaults to 'Y-m-d'
-         *
-         * - mongo:
-         *   - mongo:
-         *      - id: optional if host is given
-         *      - host: database host name, optional if id is given
-         *      - [port]: defaults to 27017
-         *      - [user]: database user name
-         *      - pass: mandatory only if user is present
-         *      - [database]: defaults to monolog
-         *      - [collection]: defaults to logs
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
-         * - elasticsearch:
-         *   - elasticsearch:
-         *      - id: optional if host is given
-         *      - host: elastic search host name
-         *      - [port]: defaults to 9200
-         *   - [index]: index name, defaults to monolog
-         *   - [document_type]: document_type, defaults to logs
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
-         * - fingers_crossed:
-         *   - handler: the wrapped handler's name
-         *   - [action_level|activation_strategy]: minimum level or service id to activate the handler, defaults to WARNING
-         *   - [excluded_404s]: if set, the strategy will be changed to one that excludes 404s coming from URLs matching any of those patterns
-         *   - [buffer_size]: defaults to 0 (unlimited)
-         *   - [stop_buffering]: bool to disable buffering once the handler has been activated, defaults to true
-         *   - [passthru_level]: level name or int value for messages to always flush, disabled by default
-         *   - [bubble]: bool, defaults to true
-         *
-         * - filter:
-         *   - handler: the wrapped handler's name
-         *   - [accepted_levels]: list of levels to accept
-         *   - [min_level]: minimum level to accept (only used if accepted_levels not specified)
-         *   - [max_level]: maximum level to accept (only used if accepted_levels not specified)
-         *   - [bubble]: bool, defaults to true
-         *
-         * - buffer:
-         *   - handler: the wrapped handler's name
-         *   - [buffer_size]: defaults to 0 (unlimited)
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *   - [flush_on_overflow]: bool, defaults to false
-         *
-         * - deduplication:
-         *   - handler: the wrapper handler's name
-         *   - [store]: The file/path where the deduplication log should be kept, defaults to %kernel.cache_dir%/monolog_dedup_*
-         *   - [deduplication_level]: The minimum logging level for log records to be looked at for deduplication purposes, defaults to ERROR
-         *   - [time]: The period (in seconds) during which duplicate entries should be suppressed after a given log is sent through, defaults to 60
-         *   - [bubble]: bool, defaults to true
-         *
-         * - group:
-         *   - members: the wrapped handlers by name
-         *   - [bubble]: bool, defaults to true
-         *
-         * - whatfailuregroup:
-         *   - members: the wrapped handlers by name
-         *   - [bubble]: bool, defaults to true
-         *
-         * - syslog:
-         *   - ident: string
-         *   - [facility]: defaults to 'user', use any of the LOG_* facility constant but without LOG_ prefix, e.g. user for LOG_USER
-         *   - [logopts]: defaults to LOG_PID
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
-         * - syslogudp:
-         *   - host: syslogd host name
-         *   - [port]: defaults to 514
-         *   - [facility]: defaults to 'user', use any of the LOG_* facility constant but without LOG_ prefix, e.g. user for LOG_USER
-         *   - [logopts]: defaults to LOG_PID
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
-         * - swift_mailer:
-         *   - from_email: optional if email_prototype is given
-         *   - to_email: optional if email_prototype is given
-         *   - subject: optional if email_prototype is given
-         *   - [email_prototype]: service id of a message, defaults to a default message with the three fields above
-         *   - [content_type]: optional if email_prototype is given, defaults to text/plain
-         *   - [mailer]: mailer service, defaults to mailer
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *   - [lazy]: use service lazy loading, bool, defaults to true
-         *
-         *
-         * - socket:
-         *   - connection_string: string
-         *   - [timeout]: float
-         *   - [connection_timeout]: float
-         *   - [persistent]: bool
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
-         * - raven:
-         *   - dsn: connection string
-         *   - client_id: Raven client custom service id (optional)
-         *   - [release]: release number of the application that will be attached to logs, defaults to null
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *   - [auto_stack_logs]: bool, defaults to false
-         *
-         * - hipchat:
-         *   - token: hipchat api token
-         *   - room: room id or name
-         *   - [notify]: defaults to false
-         *   - [nickname]: defaults to Monolog
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *   - [use_ssl]: bool, defaults to true
-         *   - [message_format]: text or html, defaults to text
-         *   - [host]: defaults to "api.hipchat.com"
-         *   - [api_version]: defaults to "v1"
-         *
-         *
-         * - cube:
-         *   - url: http/udp url to the cube server
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
-         * - amqp:
-         *   - exchange: service id of an AMQPExchange
-         *   - [exchange_name]: string, defaults to log
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
-         * - error_log:
-         *   - [message_type]: int 0 or 4, defaults to 0
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
-         * - null:
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
-         * - debug:
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
-         * - logentries:
-         *   - token: logentries api token
-         *   - [use_ssl]: whether or not SSL encryption should be used, defaults to true
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *   - [timeout]: float
-         *   - [connection_timeout]: float
-         *
-         * - flowdock:
-         *   - token: flowdock api token
-         *   - source: human readable identifier of the application
-         *   - from_email: email address of the message sender
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         *
-         * - rollbar:
-         *   - id: RollbarNotifier service (mandatory if token is not provided)
-         *   - token: rollbar api token (skip if you provide a RollbarNotifier service id)
-         *   - [config]: config values from https://github.com/rollbar/rollbar-php#configuration-reference
-         *   - [level]: level name or int value, defaults to DEBUG
-         *   - [bubble]: bool, defaults to true
-         */
         $bubble = (isset($handlerConfig['bubble']) ? $handlerConfig['bubble'] : true);
 
         switch ($handlerConfig['type']) {
@@ -312,8 +128,6 @@ class MonologConfigurationExtension
                 return new LogglyHandler($handlerConfig['token'], $handlerConfig['level'], $bubble);
                 break;
 
-            case 'mongo':
-
             case 'native_mailer':
                 $nativeMailHandlerValidator = new Validator\NativeMailHandlerConfigValidator($handlerConfig);
                 $nativeMailHandlerValidator->validate();
@@ -331,7 +145,7 @@ class MonologConfigurationExtension
                 return new NewRelicHandler($handlerConfig['level'], $bubble, $appName);
                 break;
             case 'php_console':
-                return;
+                break;
             case 'pushover':
                 $pushoverHandlerValidator = new Validator\PushoverHandlerConfigValidator($handlerConfig);
                 $pushoverHandlerValidator->validate();
@@ -360,13 +174,6 @@ class MonologConfigurationExtension
 
                 return $rotatingFileHandler;
                 break;
-
-            case
-            'swift_mailer':
-            case 'sys_log':
-            case 'zend_monitor':
-            case 'hipchat':
-            case 'iftt':
             case 'firephp':
                 $firePhpHandlerValidator = new Validator\AbstractHandlerConfigValidator($handlerConfig);
                 $firePhpHandlerValidator->validate();
@@ -379,13 +186,20 @@ class MonologConfigurationExtension
 
                 return new ChromePHPHandler($handlerConfig['level'], $bubble);
                 break;
-            case 'dynamodb':
-            case 'couchdb':
             case 'browser_console':
                 $browserConsoleHandlerValidator = new Validator\BrowserConsoleHandlerConfigValidator($handlerConfig);
                 $browserConsoleHandlerValidator->validate();
 
                 return new BrowserConsoleHandler($handlerConfig['level'], $bubble);
+                break;
+            case 'dynamodb':
+            case 'couchdb':
+            case 'swift_mailer':
+            case 'sys_log':
+            case 'zend_monitor':
+            case 'hipchat':
+            case 'iftt':
+            case 'mongo':
                 break;
             default:
                 throw new MonologHandlerNotImplementedException(

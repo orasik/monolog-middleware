@@ -62,9 +62,9 @@ class LoggableProvider
     /**
      * Returns a formatted message string.
      *
-     * @param RequestInterface  $request  Request that was sent
+     * @param RequestInterface $request Request that was sent
      * @param ResponseInterface $response Response that was received
-     * @param \Exception        $error    Exception that was received
+     * @param \Exception $error Exception that was received
      *
      * @return string
      */
@@ -92,10 +92,12 @@ class LoggableProvider
                         $result = $response ? Psr7\str($response) : '';
                         break;
                     case 'req_headers':
-                        $result = trim($request->getMethod()
-                                . ' ' . $request->getRequestTarget())
-                            . ' HTTP/' . $request->getProtocolVersion() . "\r\n"
-                            . $this->headers($request);
+                        $result = trim(
+                                $request->getMethod()
+                                .' '.$request->getRequestTarget()
+                            )
+                            .' HTTP/'.$request->getProtocolVersion()."\r\n"
+                            .$this->headers($request);
                         break;
                     case 'res_headers':
                         $result = $response ?
@@ -104,7 +106,7 @@ class LoggableProvider
                                 $response->getProtocolVersion(),
                                 $response->getStatusCode(),
                                 $response->getReasonPhrase()
-                            ) . "\r\n" . $this->headers($response)
+                            )."\r\n".$this->headers($response)
                             : 'NULL';
                         break;
                     case 'req_body':
@@ -168,17 +170,22 @@ class LoggableProvider
                 }
 
                 $cache[$matches[1]] = $result;
+
                 return $result;
             },
             $this->template
         );
     }
 
+    /**
+     * @param MessageInterface $message
+     * @return string
+     */
     private function headers(MessageInterface $message)
     {
         $result = '';
         foreach ($message->getHeaders() as $name => $values) {
-            $result .= $name . ': ' . implode(', ', $values) . "\r\n";
+            $result .= $name.': '.implode(', ', $values)."\r\n";
         }
 
         return trim($result);
