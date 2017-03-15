@@ -3,6 +3,8 @@
 namespace MonologMiddleware;
 
 use Monolog\Logger;
+use MonologMiddleware\Loggable\LoggableData;
+use MonologMiddleware\Loggable\LoggableProvider;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,13 +22,18 @@ class MonologMiddleware implements MiddlewareInterface
     protected $logger;
 
     /**
+     * @var LoggableProvider
+     */
+    protected $loggableProvider;
+
+    /**
      * MonologMiddleware constructor.
      * @param Logger $logger
-     * @TODO: add monolog lib
      */
-    public function __construct(Logger $logger)
+    public function __construct(Logger $logger, loggableProvider $loggableProvider)
     {
         $this->logger = $logger;
+        $this->loggableProvider = $loggableProvider;
     }
 
 
@@ -40,8 +47,7 @@ class MonologMiddleware implements MiddlewareInterface
     {
         $level = $this->getLogLevel($response->getStatusCode());
 
-        $this->logRequest($level, $request);
-        $this->logResponse($level, $response);
+        $this->log($level, $request, $response);
 
         return $next($request, $response);
     }
@@ -77,32 +83,13 @@ class MonologMiddleware implements MiddlewareInterface
     }
 
     /**
-     * @param int $level
+     * @param $level
      * @param ServerRequestInterface $request
+     * @param Response $response
+     * @return bool
      */
-    public function logRequest($level, $request)
+    public function log($level, ServerRequestInterface $request, ResponseInterface $response)
     {
-        $message = sprintf("Request body: %s ", $request->getBody());
-        $context = [
-            'uri'    => $request->getUri()->getPath(),
-            'method' => $request->getMethod(),
-            'params' => $request->getQueryParams(),
-        ];
-
-        $this->logger->addRecord($level, $message, $context);
-    }
-
-    /**
-     * @param int $level
-     * @param ResponseInterface $response
-     */
-    public function logResponse($level, $response)
-    {
-        $message = sprintf("Response body: %s ", $response->getBody());
-        $context = [
-            'response_code' => $response->getStatusCode()
-        ];
-
-        $this->logger->addRecord($level, $message, $context);
+        return $this->logger->addRecord($level, $this->loggableProvider->format($request, $response));
     }
 }

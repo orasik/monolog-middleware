@@ -5,6 +5,7 @@ use Interop\Container\ContainerInterface;
 use Monolog\Logger;
 use MonologMiddleware\Exception\MonologConfigException;
 use MonologMiddleware\Extension\MonologConfigurationExtension;
+use MonologMiddleware\Loggable\LoggableProvider;
 use MonologMiddleware\MonologMiddleware;
 
 /**
@@ -29,12 +30,16 @@ class MonologMiddlewareFactory
         $helper = new MonologConfigurationExtension($config['monolog']);
         $logHandlers = $helper->getLogHandlers();
         $loggerName = (isset($config['monolog']['logger_name']) ? $config['monolog']['logger_name'] : 'monolog');
+        $loggables = (isset($config['monolog']['loggables']) ? $config['monolog']['loggables'] : '[{host}] {request}/{response}');
+
+        $loggableProvider = new LoggableProvider($loggables);
+
         /**
          * @var Logger
          */
         $monologLogger = new Logger($loggerName);
         $monologLogger->setHandlers($logHandlers);
 
-        return new MonologMiddleware($monologLogger);
+        return new MonologMiddleware($monologLogger, $loggableProvider);
     }
 }
