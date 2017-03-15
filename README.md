@@ -1,6 +1,11 @@
 # Monolog Logger Middleware
 Monolog Middleware to be used with PSR-7 middleware frameworks like Zend Expressive and Slim.
 
+The stable version now is *1.0* which has `loggables` setting inspired by Guzzle Log Format. You can set any data in request/response/headers that you want to log from config file
+ rather than in code to give more flexibility in logging more/less data based on your needs.
+
+
+
 ### Installation
 
 ##### 1) Install middleware using composer
@@ -19,6 +24,7 @@ return [
     'monolog' =>
         [
             'logger_name' => 'MyLog',
+            'loggables' => '[{host}] {request}/{response}', // optional and current one is default format that will be logged
             'handlers' =>
                 [
                     'main'   =>
@@ -32,6 +38,8 @@ return [
         ],
 ];
 ```
+
+Please refer to Loggables list at end for all possible variables.
 
 
 ##### 3) Add factory and middleware to `dependencies.global.php` file as follows:
@@ -61,7 +69,7 @@ return [
 
  Now every time you call the route `/`, you'll get logs for request and response.
 
- **By default, MonologMiddleware will record logs in debug mode. If you want to handle different levels, please refer to Extending Middleware section.**
+ **By default, MonologMiddleware will record logs in debug mode. If you want to handle different levels, just change `level` in config.**
 
 
 ### Requirements
@@ -193,6 +201,41 @@ $redisHandler = [
 ];
 ```
 
+
+#### Loggables list
+
+To log request/response body you can use `{req_body}` and `{res_body}` respectively in `format` setting.
+
+Full list of logs variables with description:
+
+| Variable | 	Substitution |
+| --- | --- |
+| {request}	| Full HTTP request message |
+| {response}	| Full HTTP response message |
+| {ts}	 | Timestamp |
+| {host} |	Host of the request |
+| {method} |	Method of the request |
+| {url}	 | URL of the request |
+| {host} |	Host of the request |
+| {protocol} | 	Request protocol |
+| {version} | Protocol version |
+| {resource}|	Resource of the request (path + query + fragment) |
+| {port}	| Port of the request |
+| {hostname} | 	Hostname of the machine that sent the request |
+| {code} | Status code of the response (if available) |
+| {phrase} | Reason phrase of the response (if available) |
+| {curl_error} | Curl error message (if available) |
+| {curl_code} | Curl error code (if available) |
+| {curl_stderr} | Curl standard error (if available) |
+| {connect_time} | Time in seconds it took to establish the connection (if available) |
+| {total_time}	 | Total transaction time in seconds for last transfer (if available) |
+| {req_header_*} | Replace * with the lowercased name of a request header to add to the message |
+| {res_header_*} | Replace * with the lowercased name of a response header to add to the message |
+| {req_body} | Request body  |
+| {res_body} | Response body|
+
+
+
 #### Extending Middleware
 
 To extend the middleware to log your own format, or specific data like cookies, server params .. etc. You can do that easily using the following steps:
@@ -244,7 +287,6 @@ class MonologMiddleware implements MiddlewareInterface
     /**
      * MonologMiddleware constructor.
      * @param Logger $logger
-     * @TODO: add monolog lib
      */
     public function __construct(Logger $logger)
     {
