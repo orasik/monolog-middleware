@@ -30,7 +30,7 @@ class MonologMiddlewareFactory
         $helper = new MonologConfigurationExtension($config['monolog']);
         $logHandlers = $helper->getLogHandlers();
         $loggerName = (isset($config['monolog']['logger_name']) ? $config['monolog']['logger_name'] : 'monolog');
-        $loggables = (isset($config['monolog']['loggables']) ? $config['monolog']['loggables'] : '[{host}] {request}/{response}');
+        $loggables = (isset($config['monolog']['loggables']) ? $config['monolog']['loggables'] : null);
 
         $loggableProvider = new LoggableProvider($loggables);
 
