@@ -45,7 +45,7 @@ class MonologMiddleware implements MiddlewareInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
     {
-        $nextResponse = $next($request, $response)
+        $nextResponse = $next($request, $response);
         $level = $this->getLogLevel($response->getStatusCode());
 
         $this->log($level, $request, $nextResponse);
