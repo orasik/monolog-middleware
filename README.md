@@ -1,7 +1,11 @@
 # Monolog Logger Middleware
 Monolog Middleware to be used with PSR-7 middleware frameworks like Zend Expressive and Slim.
 
-The stable version now is *1.0* which has `loggables` setting inspired by Guzzle Log Format. You can set any data in request/response/headers that you want to log from config file
+**Now it does support Zend Expressive `2.*`**
+
+To use with Zend Expressive `1.*` please install version `1.1.4`
+
+ `loggables` setting inspired by Guzzle Log Format. You can set any data in request/response/headers that you want to log from config file
  rather than in code to give more flexibility in logging more/less data based on your needs.
 
 
