@@ -2,13 +2,14 @@
 
 namespace MonologMiddleware;
 
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Monolog\Logger;
 use MonologMiddleware\Loggable\LoggableData;
 use MonologMiddleware\Loggable\LoggableProvider;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Zend\Stratigility\MiddlewareInterface;
 
 /**
  * Class MonologMiddleware
@@ -36,21 +37,14 @@ class MonologMiddleware implements MiddlewareInterface
         $this->loggableProvider = $loggableProvider;
     }
 
-
-    /**
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param callable $next
-     * @return mixed
-     */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $nextResponse = $next($request, $response);
+        $response = $delegate->process($request);
         $level = $this->getLogLevel($response->getStatusCode());
 
-        $this->log($level, $request, $nextResponse);
+        $this->log($level, $request, $response);
 
-        return $nextResponse;
+        return $response;
     }
 
     /**
@@ -83,10 +77,11 @@ class MonologMiddleware implements MiddlewareInterface
         return $level;
     }
 
+
     /**
      * @param $level
      * @param ServerRequestInterface $request
-     * @param Response $response
+     * @param ResponseInterface $response
      * @return bool
      */
     public function log($level, ServerRequestInterface $request, ResponseInterface $response)
