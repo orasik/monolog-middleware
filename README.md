@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/orasik/monolog-middleware.svg?branch=master)](https://travis-ci.org/orasik/monolog-middleware)
+
 # Monolog Logger Middleware
 Monolog Middleware to be used with PSR-7 middleware frameworks like Zend Expressive and Slim.
 
