@@ -17,7 +17,6 @@ class AbstractHandlerConfigValidator
      */
     protected $handlerConfigArray;
 
-
     /**
      * AbstractHandlerConfigValidator constructor.
      * @param $handlerConfigArray
@@ -31,25 +30,25 @@ class AbstractHandlerConfigValidator
      * @return bool
      * @throws MonologConfigException
      */
-    public function validate()
+    public function validate(): bool
     {
         if ($this->hasLevel()) {
             return true;
-        } else {
-            throw new MonologConfigException("Missing data in handler configuration");
         }
+
+        throw new MonologConfigException("Missing data in handler configuration");
     }
 
     /**
      * @return bool
      * @throws MonologConfigException
      */
-    public function hasLevel()
+    public function hasLevel(): bool
     {
         if (isset($this->handlerConfigArray['level'])) {
             return true;
-        } else {
-            throw new MonologConfigException("Monolog level is missing from config");
         }
+
+        throw new MonologConfigException("Monolog level is missing from config");
     }
 }

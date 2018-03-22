@@ -72,7 +72,8 @@ class LoggableProvider
         RequestInterface $request,
         ResponseInterface $response = null,
         \Exception $error = null
-    ) {
+    ): string
+    {
         $cache = [];
 
         return preg_replace_callback(
@@ -181,7 +182,7 @@ class LoggableProvider
      * @param MessageInterface $message
      * @return string
      */
-    private function headers(MessageInterface $message)
+    private function headers(MessageInterface $message): string
     {
         $result = '';
         foreach ($message->getHeaders() as $name => $values) {

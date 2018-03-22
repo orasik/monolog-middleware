@@ -19,6 +19,11 @@ class MonologMiddlewareFactory
      * @param ContainerInterface $serviceContainer
      * @return MonologMiddleware
      * @throws MonologConfigException
+     * @throws \Exception
+     * @throws \MonologMiddleware\Exception\MonologHandlerNotImplementedException
+     * @throws \Monolog\Handler\MissingExtensionException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $serviceContainer)
     {
@@ -29,8 +34,8 @@ class MonologMiddlewareFactory
 
         $helper = new MonologConfigurationExtension($config['monolog']);
         $logHandlers = $helper->getLogHandlers();
-        $loggerName = (isset($config['monolog']['logger_name']) ? $config['monolog']['logger_name'] : 'monolog');
-        $loggables = (isset($config['monolog']['loggables']) ? $config['monolog']['loggables'] : null);
+        $loggerName = ($config['monolog']['logger_name'] ?? 'monolog');
+        $loggables = ($config['monolog']['loggables'] ?? null);
 
         $loggableProvider = new LoggableProvider($loggables);
 

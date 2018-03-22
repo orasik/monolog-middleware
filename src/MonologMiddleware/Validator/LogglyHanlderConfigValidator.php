@@ -15,24 +15,23 @@ class LogglyHanlderConfigValidator extends AbstractHandlerConfigValidator
      * @return bool
      * @throws MonologConfigException
      */
-    public function validate()
+    public function validate(): bool
     {
         if (parent::hasLevel() && $this->hasToken()) {
             return true;
         }
     }
 
-
     /**
      * @return bool
      * @throws MonologConfigException
      */
-    public function hasToken()
+    public function hasToken(): bool
     {
         if (isset($this->handlerConfigArray['token'])) {
             return true;
-        } else {
-            throw new MonologConfigException("Missing token in Loggly config");
         }
+
+        throw new MonologConfigException("Missing token in Loggly config");
     }
 }

@@ -15,52 +15,51 @@ class NativeMailHandlerConfigValidator extends AbstractHandlerConfigValidator
      * @throws MonologConfigException
      * @throws \MonologMiddleware\Exception\MonologConfigException
      */
-    public function validate()
+    public function validate(): bool
     {
         if (parent::hasLevel() && $this->hasTo() && $this->hasSubject() && $this->hasFrom()) {
             return true;
-        } else {
-            throw new MonologConfigException("Missing data in handler configuration");
         }
-    }
 
+        throw new MonologConfigException("Missing data in handler configuration");
+    }
 
     /**
      * @return bool
      * @throws MonologConfigException
      */
-    public function hasTo()
+    public function hasTo(): bool
     {
         if (isset($this->handlerConfigArray['to_email'])) {
             return true;
-        } else {
-            throw new MonologConfigException("Monolog To email is missing from config");
         }
+
+        throw new MonologConfigException("Monolog To email is missing from config");
     }
 
     /**
      * @return bool
      * @throws MonologConfigException
      */
-    public function hasSubject()
+    public function hasSubject(): bool
     {
         if (isset($this->handlerConfigArray['subject'])) {
             return true;
-        } else {
-            throw new MonologConfigException("Monolog email subject is missing from config");
         }
+
+        throw new MonologConfigException("Monolog email subject is missing from config");
     }
 
     /**
      * @return bool
      * @throws MonologConfigException
      */
-    public function hasFrom()
+    public function hasFrom(): bool
     {
         if (isset($this->handlerConfigArray['from_email'])) {
             return true;
-        } else {
-            throw new MonologConfigException("Monolog email from is missing from config");
         }
+
+        throw new MonologConfigException("Monolog email from is missing from config");
     }
 }

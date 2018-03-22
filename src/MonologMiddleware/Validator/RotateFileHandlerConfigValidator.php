@@ -18,7 +18,7 @@ class RotateFileHandlerConfigValidator extends AbstractHandlerConfigValidator
      * @return bool
      * @throws MonologConfigException
      */
-    public function validate()
+    public function validate(): bool
     {
         if (parent::hasLevel() && $this->hasFilename()) {
             return true;
@@ -27,15 +27,14 @@ class RotateFileHandlerConfigValidator extends AbstractHandlerConfigValidator
 
     /**
      * @return bool
+     * @throws MonologConfigException
      */
-    public function hasFilename()
+    public function hasFilename(): bool
     {
         if (isset($this->handlerConfigArray['filename'])) {
             return true;
-        } else {
-            throw new MonologConfigException("Missing filename in Rotate File handler configuration");
         }
+
+        throw new MonologConfigException("Missing filename in Rotate File handler configuration");
     }
-
-
 }

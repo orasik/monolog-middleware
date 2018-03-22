@@ -18,7 +18,7 @@ class PushoverHandlerConfigValidator extends AbstractHandlerConfigValidator
      * @return bool
      * @throws MonologConfigException
      */
-    public function validate()
+    public function validate(): bool
     {
         if (parent::hasLevel() && $this->hasToken() && $this->hasUser()) {
             return true;
@@ -29,25 +29,25 @@ class PushoverHandlerConfigValidator extends AbstractHandlerConfigValidator
      * @return bool
      * @throws MonologConfigException
      */
-    public function hasToken()
+    public function hasToken(): bool
     {
         if (isset($this->handlerConfigArray['token'])) {
             return true;
-        } else {
-            throw new MonologConfigException("Missing token in Pushover handler configuration");
         }
+
+        throw new MonologConfigException("Missing token in Pushover handler configuration");
     }
 
     /**
      * @return bool
      * @throws MonologConfigException
      */
-    public function hasUser()
+    public function hasUser(): bool
     {
         if (isset($this->handlerConfigArray['user'])) {
             return true;
-        } else {
-            throw new MonologConfigException("Missing user in Pushover handler configuration");
         }
+
+        throw new MonologConfigException("Missing user in Pushover handler configuration");
     }
 }

@@ -34,6 +34,7 @@ class MonologConfigurationExtension
      * MonologConfigurationExtension constructor.
      * This will get the configuration array from Service Container
      * @param array $config
+     * @throws MonologConfigException
      */
     public function __construct($config)
     {
@@ -41,7 +42,11 @@ class MonologConfigurationExtension
         $this->validate();
     }
 
-    public function validate()
+    /**
+     * @return bool
+     * @throws MonologConfigException
+     */
+    public function validate(): bool
     {
         return $this->hasHandlersConfig();
     }
@@ -50,21 +55,23 @@ class MonologConfigurationExtension
      * @return bool
      * @throws MonologConfigException
      */
-    public function hasHandlersConfig()
+    public function hasHandlersConfig(): bool
     {
         if (isset($this->config['handlers'])) {
             return true;
-        } else {
-            throw new MonologConfigException("Can not find monolog handlers in your config. Make sure to have monolog configuration array in your config");
         }
+
+        throw new MonologConfigException("Can not find monolog handlers in your config. Make sure to have monolog configuration array in your config");
     }
 
     /**
      * @return array
      * @throws MonologConfigException
      * @throws MonologHandlerNotImplementedException
+     * @throws \Exception
+     * @throws \Monolog\Handler\MissingExtensionException
      */
-    public function getLogHandlers()
+    public function getLogHandlers(): array
     {
         $handlers = [];
         foreach ($this->config['handlers'] as $key => $value) {
@@ -76,10 +83,14 @@ class MonologConfigurationExtension
 
     /**
      * @param string $name
-     * @param array $handlerConfig
-     * @return SlackHandler|StreamHandler
+     * @param array  $handlerConfig
+     * @return BrowserConsoleHandler|ChromePHPHandler|FirePHPHandler|LogglyHandler|NativeMailerHandler|NewRelicHandler|PushoverHandler|RedisHandler|SlackHandler|StreamHandler
+     * @throws \LogicException
+     * @throws \InvalidArgumentException
      * @throws MonologConfigException
      * @throws MonologHandlerNotImplementedException
+     * @throws \Exception
+     * @throws \Monolog\Handler\MissingExtensionException
      */
     public function getHandler($name, $handlerConfig)
     {
@@ -87,7 +98,7 @@ class MonologConfigurationExtension
             throw new MonologConfigException(sprintf("Hander %s does not have type", $name));
         }
 
-        $bubble = (isset($handlerConfig['bubble']) ? $handlerConfig['bubble'] : true);
+        $bubble = ($handlerConfig['bubble'] ?? true);
 
         switch ($handlerConfig['type']) {
             case 'stream':
@@ -96,8 +107,8 @@ class MonologConfigurationExtension
                  */
                 $streamHandlerValidator = new Validator\StreamHandlerConfigValidator($handlerConfig);
                 $streamHandlerValidator->validate();
-                $filePermission = (isset($handlerConfig['permission']) ? $handlerConfig['permission'] : null);
-                $useLocking = (isset($handlerConfig['use_locking']) ? $handlerConfig['use_locking'] : false);
+                $filePermission = ($handlerConfig['permission'] ?? null);
+                $useLocking = ($handlerConfig['use_locking'] ?? false);
 
                 return new StreamHandler($handlerConfig['path'], $handlerConfig['level'], $bubble, $filePermission, $useLocking);
                 break;
@@ -109,11 +120,11 @@ class MonologConfigurationExtension
                 $slackHandlerValidator = new Validator\SlackHandlerConfigValidator($handlerConfig);
                 $slackHandlerValidator->validate();
 
-                $username = (isset($handlerConfig['username']) ? $handlerConfig['username'] : 'Monolog');
-                $useAttachment = (isset($handlerConfig['use_attachment']) ? $handlerConfig['use_attachment'] : true);
-                $iconEmoji = (isset($handlerConfig['icon_emoji']) ? $handlerConfig['icon_emoji'] : null);
-                $useShortAttachment = (isset($handlerConfig['useShortAttachment']) ? $handlerConfig['useShortAttachment'] : false);
-                $includeContextAndExtra = (isset($handlerConfig['includeContextAndExtra']) ? $handlerConfig['includeContextAndExtra'] : false);
+                $username = ($handlerConfig['username'] ?? 'Monolog');
+                $useAttachment = ($handlerConfig['use_attachment'] ?? true);
+                $iconEmoji = ($handlerConfig['icon_emoji'] ?? null);
+                $useShortAttachment = ($handlerConfig['useShortAttachment'] ?? false);
+                $includeContextAndExtra = ($handlerConfig['includeContextAndExtra'] ?? false);
 
                 return new SlackHandler($handlerConfig['token'], $handlerConfig['channel'], $username, $useAttachment, $iconEmoji, $handlerConfig['level'], $bubble, $useShortAttachment, $includeContextAndExtra);
                 break;
@@ -131,7 +142,7 @@ class MonologConfigurationExtension
             case 'native_mailer':
                 $nativeMailHandlerValidator = new Validator\NativeMailHandlerConfigValidator($handlerConfig);
                 $nativeMailHandlerValidator->validate();
-                $maxColumnWidth = (isset($handlerConfig['max_column_width']) ? $handlerConfig['max_column_width'] : 70);
+                $maxColumnWidth = ($handlerConfig['max_column_width'] ?? 70);
 
                 return new NativeMailerHandler($handlerConfig['to'], $handlerConfig['subject'], $handlerConfig['from'], $handlerConfig['level'], $bubble, $maxColumnWidth);
                 break;
@@ -140,7 +151,7 @@ class MonologConfigurationExtension
                 $newRelicHandlerValidator = new Validator\AbstractHandlerConfigValidator($handlerConfig);
                 $newRelicHandlerValidator->validate();
 
-                $appName = (isset($handlerConfig['app_name']) ? $handlerConfig['app_name'] : null);
+                $appName = ($handlerConfig['app_name'] ?? null);
 
                 return new NewRelicHandler($handlerConfig['level'], $bubble, $appName);
                 break;
@@ -149,14 +160,14 @@ class MonologConfigurationExtension
             case 'pushover':
                 $pushoverHandlerValidator = new Validator\PushoverHandlerConfigValidator($handlerConfig);
                 $pushoverHandlerValidator->validate();
-                $title = (isset($handlerConfig['title']) ? $handlerConfig['title'] : null);
+                $title = ($handlerConfig['title'] ?? null);
 
                 return new PushoverHandler($handlerConfig['token'], $handlerConfig['user'], $title, $handlerConfig['level'], $bubble);
                 break;
             case 'redis':
                 $redisHandlerValidator = new Validator\RedisHandlerConfigValidator($handlerConfig);
                 $redisHandlerValidator->validate();
-                $capSize = (isset($handlerConfig['cap_size']) ? $handlerConfig['cap_size'] : false);
+                $capSize = ($handlerConfig['cap_size'] ?? false);
 
                 return new RedisHandler($handlerConfig['redis_client'], $handlerConfig['key'], $bubble, $capSize);
                 break;
@@ -164,10 +175,10 @@ class MonologConfigurationExtension
 
                 $rotatingFileHanlderValidator = new Validator\StreamHandlerConfigValidator($handlerConfig);
                 $rotatingFileHanlderValidator->validate();
-                $maxFiles = (isset($handlerConfig['max_files']) ? $handlerConfig['max_files'] : 0);
-                $filePermission = (isset($handlerConfig['file_permission']) ? $handlerConfig['file_permission'] : null);
-                $filenameFormat = (isset($handlerConfig['filename_format']) ? $handlerConfig['filename_format'] : '{filename}-{date}');
-                $dateFormat = (isset($handlerConfig['date_format']) ? $handlerConfig['date_format'] : 'Y-m-d');
+                $maxFiles = ($handlerConfig['max_files'] ?? 0);
+                $filePermission = ($handlerConfig['file_permission'] ?? null);
+                $filenameFormat = ($handlerConfig['filename_format'] ?? '{filename}-{date}');
+                $dateFormat = ($handlerConfig['date_format'] ?? 'Y-m-d');
 
                 $rotatingFileHandler = new RotatingFileHandler($handlerConfig['filename'], $maxFiles, $handlerConfig['level'], $bubble, $filePermission, false);
                 $rotatingFileHandler->setFilenameFormat($filenameFormat, $dateFormat);
