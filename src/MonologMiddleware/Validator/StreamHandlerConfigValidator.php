@@ -17,25 +17,23 @@ class StreamHandlerConfigValidator extends AbstractHandlerConfigValidator
      * @return bool
      * @throws MonologConfigException
      */
-    public function validate()
+    public function validate(): bool
     {
         if (parent::hasLevel() && $this->hasPath()) {
             return true;
         }
     }
 
-
     /**
      * @return bool
+     * @throws MonologConfigException
      */
-    public function hasPath()
+    public function hasPath(): bool
     {
         if (isset($this->handlerConfigArray['path'])) {
             return true;
-        } else {
-            throw new MonologConfigException("Missing Path in Stream handler configuration");
         }
+
+        throw new MonologConfigException("Missing Path in Stream handler configuration");
     }
-
-
 }

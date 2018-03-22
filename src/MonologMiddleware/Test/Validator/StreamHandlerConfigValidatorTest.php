@@ -4,8 +4,9 @@
 namespace MonologMiddleware\Test;
 
 use MonologMiddleware\Validator\StreamHandlerConfigValidator;
+use PHPUnit\Framework\TestCase;
 
-class StreamHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
+class StreamHandlerConfigValidatorTest extends TestCase
 {
 
     public function testValidate()
@@ -38,7 +39,7 @@ class StreamHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
             'type' => 'stream',
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
         $streamValidator = new StreamHandlerConfigValidator($configArray);
         $streamValidator->hasPath();
 

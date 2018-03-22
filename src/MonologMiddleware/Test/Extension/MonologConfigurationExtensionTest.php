@@ -6,14 +6,15 @@ use Monolog\Handler\SlackHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use MonologMiddleware\Extension\MonologConfigurationExtension;
+use PHPUnit\Framework\TestCase;
 
-class MonologConfigurationExtensionTest extends \PHPUnit_Framework_TestCase
+class MonologConfigurationExtensionTest extends TestCase
 {
     public function testConstructorWithEmptyArrayShouldThrowMonologConfigException()
     {
         $config = [];
 
-        self::setExpectedException('\MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('\MonologMiddleware\Exception\MonologConfigException');
         $configExtention = new MonologConfigurationExtension($config);
     }
 
@@ -48,7 +49,7 @@ class MonologConfigurationExtensionTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
 
         $configExtension = new MonologConfigurationExtension($config);
     }
@@ -66,9 +67,9 @@ class MonologConfigurationExtensionTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        $conigHelper = new MonologConfigurationExtension($config);
+        $configHelper = new MonologConfigurationExtension($config);
 
-        $handler = $conigHelper->getHandler('main', $config['handlers']['main']);
+        $handler = $configHelper->getHandler('main', $config['handlers']['main']);
 
         $this->assertInstanceOf(StreamHandler::class, $handler);
     }
@@ -105,7 +106,7 @@ class MonologConfigurationExtensionTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');;
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');;
         $conigHelper = new MonologConfigurationExtension($config);
         $handler = $conigHelper->getHandler('loggly', $config['handlers']['loggly']);
     }
@@ -121,7 +122,7 @@ class MonologConfigurationExtensionTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');;
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');;
         $conigHelper = new MonologConfigurationExtension($config);
         $handler = $conigHelper->getHandler('loggly', $config['handlers']['loggly']);
     }
@@ -160,7 +161,7 @@ class MonologConfigurationExtensionTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
         $conigHelper = new MonologConfigurationExtension($config);
 
         $handler = $conigHelper->getHandler('slack', $config['handlers']['slack']);
@@ -179,7 +180,7 @@ class MonologConfigurationExtensionTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
         $conigHelper = new MonologConfigurationExtension($config);
 
         $handler = $conigHelper->getHandler('slack', $config['handlers']['slack']);
@@ -197,7 +198,7 @@ class MonologConfigurationExtensionTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
         $conigHelper = new MonologConfigurationExtension($config);
 
         $handler = $conigHelper->getHandler('slack', $config['handlers']['slack']);
@@ -214,7 +215,7 @@ class MonologConfigurationExtensionTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
         $conigHelper = new MonologConfigurationExtension($config);
 
         $handler = $conigHelper->getHandler('slack', $config['handlers']['slack']);
@@ -235,7 +236,7 @@ class MonologConfigurationExtensionTest extends \PHPUnit_Framework_TestCase
 
         $configExtension = new MonologConfigurationExtension($config);
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologHandlerNotImplementedException');
+        $this->expectException('MonologMiddleware\Exception\MonologHandlerNotImplementedException');
 
         $configExtension->getHandler('rubbish', $config['handlers']['rubbishHandler']);
     }

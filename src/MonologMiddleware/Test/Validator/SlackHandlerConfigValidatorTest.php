@@ -4,8 +4,9 @@
 namespace MonologMiddleware\Test;
 
 use MonologMiddleware\Validator\SlackHandlerConfigValidator;
+use PHPUnit\Framework\TestCase;
 
-class SlackHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
+class SlackHandlerConfigValidatorTest extends TestCase
 {
 
     public function testValidate()
@@ -40,7 +41,7 @@ class SlackHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
             'token' => '123-123-123-123',
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
         $slackValidator = new SlackHandlerConfigValidator($configArray);
         $slackValidator->hasChannel();
 
@@ -64,7 +65,7 @@ class SlackHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
             'level' => 'DEBUG',
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
         $slackValidator = new SlackHandlerConfigValidator($configArray);
         $slackValidator->hasToken();
     }

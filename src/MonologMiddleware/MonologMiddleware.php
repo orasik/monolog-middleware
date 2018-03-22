@@ -2,13 +2,12 @@
 
 namespace MonologMiddleware;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Monolog\Logger;
-use MonologMiddleware\Loggable\LoggableData;
 use MonologMiddleware\Loggable\LoggableProvider;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -29,7 +28,8 @@ class MonologMiddleware implements MiddlewareInterface
 
     /**
      * MonologMiddleware constructor.
-     * @param Logger $logger
+     * @param Logger           $logger
+     * @param LoggableProvider $loggableProvider
      */
     public function __construct(Logger $logger, loggableProvider $loggableProvider)
     {
@@ -37,9 +37,14 @@ class MonologMiddleware implements MiddlewareInterface
         $this->loggableProvider = $loggableProvider;
     }
 
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    /**
+     * @param ServerRequestInterface  $request
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
+     */
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $response = $delegate->process($request);
+        $response = $handler->handle($request);
         $level = $this->getLogLevel($response->getStatusCode());
 
         $this->log($level, $request, $response);
@@ -51,7 +56,7 @@ class MonologMiddleware implements MiddlewareInterface
      * @param int $responseCode
      * @return int
      */
-    public function getLogLevel($responseCode)
+    public function getLogLevel($responseCode): int
     {
         // Log level will be dependant on Response Code
         switch ($responseCode) {
@@ -84,7 +89,7 @@ class MonologMiddleware implements MiddlewareInterface
      * @param ResponseInterface $response
      * @return bool
      */
-    public function log($level, ServerRequestInterface $request, ResponseInterface $response)
+    public function log($level, ServerRequestInterface $request, ResponseInterface $response): bool
     {
         return $this->logger->addRecord($level, $this->loggableProvider->format($request, $response));
     }

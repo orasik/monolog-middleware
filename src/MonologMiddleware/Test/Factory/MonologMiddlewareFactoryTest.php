@@ -3,9 +3,9 @@ namespace MonologMiddleware\Test;
 
 use Monolog\Logger;
 use MonologMiddleware\MonologMiddleware;
+use PHPUnit\Framework\TestCase;
 
-
-class MonologMiddlewareFactoryTest extends \PHPUnit_Framework_TestCase
+class MonologMiddlewareFactoryTest extends TestCase
 {
     protected $serviceContainer;
 
