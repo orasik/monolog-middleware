@@ -4,8 +4,9 @@
 namespace MonologMiddleware\Test;
 
 use MonologMiddleware\Validator\LogglyHanlderConfigValidator;
+use PHPUnit\Framework\TestCase;
 
-class LogglyHanlderConfigValidatorTest extends \PHPUnit_Framework_TestCase
+class LogglyHanlderConfigValidatorTest extends TestCase
 {
 
     public function testValidate()
@@ -37,7 +38,7 @@ class LogglyHanlderConfigValidatorTest extends \PHPUnit_Framework_TestCase
             'type' => 'loggly',
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
         $logglyValidator = new LogglyHanlderConfigValidator($configArray);
         $this->assertTrue($logglyValidator->hasToken());
     }

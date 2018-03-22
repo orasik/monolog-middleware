@@ -4,8 +4,9 @@
 namespace MonologMiddleware\Test;
 
 use MonologMiddleware\Validator\NativeMailHandlerConfigValidator;
+use PHPUnit\Framework\TestCase;
 
-class NativeMailHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
+class NativeMailHandlerConfigValidatorTest extends TestCase
 {
 
     public function testValidate()
@@ -67,7 +68,7 @@ class NativeMailHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
             'from_email' => 'monolog@yoursystem.com',
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
         $nativeMailValidator = new NativeMailHandlerConfigValidator($configArray);
         $this->assertTrue($nativeMailValidator->hasTo());
         $this->assertTrue($nativeMailValidator->hasFrom());

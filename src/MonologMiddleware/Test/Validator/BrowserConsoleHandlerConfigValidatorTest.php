@@ -4,8 +4,9 @@
 namespace MonologMiddleware\Test;
 
 use MonologMiddleware\Validator\BrowserConsoleHandlerConfigValidator;
+use PHPUnit\Framework\TestCase;
 
-class BrowserConsoleHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
+class BrowserConsoleHandlerConfigValidatorTest extends TestCase
 {
 
     public function testValidate()

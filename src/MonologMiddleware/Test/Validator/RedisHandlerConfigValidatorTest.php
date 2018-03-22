@@ -4,8 +4,9 @@
 namespace MonologMiddleware\Test;
 
 use MonologMiddleware\Validator\RedisHandlerConfigValidator;
+use PHPUnit\Framework\TestCase;
 
-class RedisHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
+class RedisHandlerConfigValidatorTest extends TestCase
 {
 
     public function testValidate()
@@ -41,7 +42,7 @@ class RedisHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
             'key'   => 'monolog'
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
         $redisValidator = new RedisHandlerConfigValidator($configArray);
         $redisValidator->hasRedisClient();
     }
@@ -53,7 +54,7 @@ class RedisHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
             'level'        => 'INFO',
             'redis_client' => 'REDIS',
         ];
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
         $redisValidator = new RedisHandlerConfigValidator($configArray);
         $redisValidator->hasRedisClient();
     }
@@ -77,7 +78,7 @@ class RedisHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
             'level' => 'INFO',
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
         $redisValidator = new RedisHandlerConfigValidator($configArray);
         $this->assertTrue($redisValidator->hasKey());
     }

@@ -4,8 +4,9 @@
 namespace MonologMiddleware\Test;
 
 use MonologMiddleware\Validator\PushoverHandlerConfigValidator;
+use PHPUnit\Framework\TestCase;
 
-class PushoverHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
+class PushoverHandlerConfigValidatorTest extends TestCase
 {
 
     public function testValidate()
@@ -39,7 +40,7 @@ class PushoverHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
             'level' => 'DEBUG',
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
         $pushoverValidator = new PushoverHandlerConfigValidator($configArray);
         $pushoverValidator->hasToken();
 
@@ -63,7 +64,7 @@ class PushoverHandlerConfigValidatorTest extends \PHPUnit_Framework_TestCase
             'level' => 'DEBUG',
         ];
 
-        self::setExpectedException('MonologMiddleware\Exception\MonologConfigException');
+        $this->expectException('MonologMiddleware\Exception\MonologConfigException');
         $pushoverValidator = new PushoverHandlerConfigValidator($configArray);
         $pushoverValidator->hasUser();
     }
