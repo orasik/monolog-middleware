@@ -1,12 +1,12 @@
 <?php
 namespace MonologMiddleware\Factory;
 
-use Interop\Container\ContainerInterface;
 use Monolog\Logger;
 use MonologMiddleware\Exception\MonologConfigException;
 use MonologMiddleware\Extension\MonologConfigurationExtension;
 use MonologMiddleware\Loggable\LoggableProvider;
 use MonologMiddleware\MonologMiddleware;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class MonologMiddlewareFactory
