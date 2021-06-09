@@ -4,9 +4,9 @@
 [![License](https://poser.pugx.org/oras/monolog-middleware/license)](https://packagist.org/packages/oras/monolog-middleware)
 
 # Monolog Logger Middleware
-Monolog Middleware to be used with PSR-7 middleware frameworks like Zend Expressive and Slim.
+Monolog Middleware to be used with PSR-7 middleware frameworks like mezzio (formerly Zend Expressive) and Slim.
 
-**Now it does support Zend Expressive `3.*`**
+**Now it does support mezzio `3.*`**
 
 To use with Zend Expressive `1.*` please install version `1.1.4`
 To use with Zend Expressive `2.*` please install version `2.0.0`
@@ -23,7 +23,7 @@ To use with Zend Expressive `2.*` please install version `2.0.0`
 composer require oras/monolog-middleware
 ```
 ##### 2) Add configuration
-Then in your Zend Expressive `config/autoload/` directory, created a new config file call it: `logger.local.php`
+Then in your mezzio `config/autoload/` directory, created a new config file call it: `logger.local.php`
 
 As a starting point, you can have the following in the file:
 
@@ -83,7 +83,7 @@ Please refer to Loggables list at end for all possible variables.
 
 
 ### Requirements
-- PHP >= 7.1
+- PHP >= 7.3
 
 
 ### Configuration examples

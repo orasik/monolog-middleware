@@ -9,7 +9,7 @@ class MonologMiddlewareFactoryTest extends TestCase
 {
     protected $serviceContainer;
 
-    public function setUp()
+    public function setUp(): void
     {
         $monologArray = [
             'monolog' =>
